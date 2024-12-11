@@ -32,3 +32,32 @@ If the project still doesn't use the GPU, follow these steps:
         - CUDA_PATH_V11_2: C:\\Program Files\\NVIDIA GPU Computing Toolkit\\CUDA\\v11.2
     4. Restart the PC to apply changes.
 
+You can find the best models for each dataset that I have used during the developing and testing phase.
+
+If you want to test the model here is what to do:
+
+    Run every cell after each other with this modifications:
+    
+    datasets = {
+        "Cedar": os.path.join(root_path, "CEDAR", "CEDAR"),
+        "BHSig260-Bengali": os.path.join(root_path, "BHSig260-Bengali", "BHSig260-Bengali"),
+        "BHSig260-Hindi": os.path.join(root_path, "BHSig260-Hindi", "BHSig260-Hindi")
+    }
+
+    choosen_dataset = datasets["Cedar"]
+    
+    Choose a dataset that you want to use then SKIP this cell since you don't want to retrain the whole model:
+
+    history = siamese_model.fit(
+        train_dataset,
+        validation_data=validation_dataset,
+        epochs=10,
+        callbacks=callbacks,
+        verbose=1,
+    )
+
+    last step to get the accuracy I mentoined choose the right model_weight from the options (CEDAR dataset=best_model_weight_cedar)
+
+    siamese_model.load_weights('best_model_weight_cedar.h5')
+    best_accuracy = siamese_model.evaluate(test_dataset)
+    print(f"Best model accuracy: {best_accuracy}")
